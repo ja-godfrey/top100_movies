@@ -1,0 +1,21 @@
+{
+  "name": "movie-overlap-finder",
+  "version": "1.0.0",
+  "description": "A web application to find overlapping movie preferences among film industry professionals",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000 --directory src"
+  },
+  "keywords": [
+    "movies",
+    "film",
+    "overlap",
+    "analysis",
+    "web-app"
+  ],
+  "author": "https://github.com/ja-godfrey",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+} 

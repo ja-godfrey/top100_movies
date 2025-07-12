@@ -1,0 +1,11 @@
+actors	Naomi Ackie, Uzo Aduba, Casey Affleck, Joel Kim Booster, Daniel Brühl, Jemaine Clement, Danielle Deadwyler, Richard Gadd, Tony Hale, William Jackson Harper, Naomie Harris, Sally Hawkins, Vicky Krieps, Dolly de Leon, Lesley Manville, Brit Marling, Arian Moayed, Ebon Moss-Bachrach, Geoffrey Rush, Taylor Russell, Will Sharpe, Gabourey Sidibe, Justice Smith, Cailee Spaeny, June Squibb, Jodie Turner-Smith, Samara Weaving, Shea Whigham, Alex Winter, Pamela Anderson, Elizabeth Banks, Danielle Brooks, Toni Collette, Brian Cox, Lena Dunham, Alden Ehrenreich, Chiwetel Ejiofor, Brett Goldstein, Bryce Dallas Howard, David Krumholtz, Nathan Lane, John Lithgow, Simu Liu, Mikey Madison, Charles Melton, Julianne Moore, Julianne Nicholson, Molly Ringwald, Tramell Tillman, John Turturro, Rachel Zegler
+
+directors	Ramin Bahrani, Sean Baker, Nuri Bilge Ceylan, Gia Coppola, Julie Dash, Cary Joji Fukunaga, Reinaldo Marcus Green, Amy Heckerling, Joanna Hogg, Karyn Kusama, Lee Chang-dong, Malcolm D. Lee, Rob Marshall, Cristian Mungiu, Joseph Patel, Christian Petzold, Michael Philippou, Corneliu Porumboiu, Gina Prince-Bythewood, Mohammad Rasoulof, Halina Reijn, Joachim Trier, Lulu Wang, Lana Wilson, Joe Wright, Pedro Almodóvar, Bong Joon Ho, Sofia Coppola, Ava DuVernay, Robert Eggers, Luca Guadagnino, Barry Jenkins, Mel Brooks, Benny Safdie, Josh Safdie, Celine Song, John Waters, Edgar Wright
+
+comedians	Kate Berlant, Ziwe Fumudoh, Phoebe Robinson, Ali Siddiq, Mike Birbiglia, Patton Oswalt, Paula Poundstone, Stephen Merchant
+
+executives	Michael Barker, Tom Bernard, Bill Mechanic, Michael Moses, Tom Quinn, Jason Blum, Amy Pascal
+
+authors	Joe Hill, Kevin Kwan, Min Jin Lee, Dennis Lehane, Simon Rich, Stephen King, Curtis Sittenfeld, Nicholas Sparks
+
+other movie industry creators	Judy Becker, Carter Burwell, Sean Evans, Jomo Fray, Noah Hawley, Eugene Hernandez, Cord Jefferson, Dave Karger, Darius Khondji, Erik Messerschmidt, Justin Peck, Eric Roth, James Murphy, Matthew Weiner

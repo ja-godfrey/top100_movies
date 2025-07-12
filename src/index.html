@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Overlap Finder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #1a1a1a;
+      --card: #2d2d2d;
+      --text: #ffffff;
+      --text-secondary: #b0b0b0;
+      --accent: #ff4757;
+      --accent-hover: #e84118;
+      --border: #404040;
+      --input-bg: #3a3a3a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+    #app {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 1200px;
+      border: 1px solid var(--border);
+    }
+    .movie-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-end;
+    }
+    .movie-selector input {
+      flex: 3;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-size: 1rem;
+      background: var(--input-bg);
+      color: var(--text);
+    }
+    .movie-selector input:focus {
+      border-color: var(--accent);
+    }
+    .movie-selector input::placeholder {
+      color: var(--text-secondary);
+    }
+    .movie-selector button {
+      flex: 1;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .movie-selector button:hover {
+      background: var(--accent-hover);
+    }
+    .movie-selector button:active {
+      transform: scale(0.98);
+    }
+    .selected-movies {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .selected-movie {
+      background: var(--card);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .selected-movie:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    .selected-movie img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+    .selected-movie h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .selected-movie p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      text-transform: capitalize;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: rgba(255, 71, 87, 0.9);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, transform 0.1s;
+      backdrop-filter: blur(10px);
+    }
+    .remove-btn:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    button:hover {
+      background: var(--accent-hover);
+    }
+    button:active {
+      transform: scale(0.98);
+    }
+    #results {
+      margin-top: 2rem;
+    }
+    .result {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+    .result h3 {
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .result p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <h1>Movie Overlap Finder</h1>
+  <div id="app">
+    <div class="movie-selector">
+      <input id="movie-selector" list="movie-options" placeholder="Type to search for movies...">
+      <button id="add-btn">Add</button>
+    </div>
+    <datalist id="movie-options">
+      <!-- Movie options will be dynamically populated here -->
+    </datalist>
+    <div class="selected-movies" id="selected-movies">
+      <!-- Selected movies will be dynamically added here -->
+    </div>
+    <button id="find-btn">Find Overlaps</button>
+    <div id="results"></div>
+  </div>
+  
+  <footer style="margin-top: 2rem; text-align: center; color: var(--text-secondary); font-size: 0.8rem; max-width: 800px;">
+    <p style="margin-top: 0.5rem;">
+      Original NYT Article: <a href="https://www.nytimes.com/interactive/2025/movies/votes-movies-21st-century.html" 
+      style="color: var(--accent);" target="_blank">The 21st Century's 100 Greatest Films</a>
+    </p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+  <script>
+    let data;
+    let selectedMovies = [];
+    
+    Papa.parse('assets/data/top100.csv', {
+      download: true,
+      header: true,
+      complete(results) {
+        data = results.data;
+        populateMovieOptions();
+      }
+    });
+
+    function populateMovieOptions() {
+      const datalist = document.getElementById('movie-options');
+      const allMovies = Array.from(new Set(data.map(r => r.title))).sort();
+      
+      allMovies.forEach(movie => {
+        const option = document.createElement('option');
+        option.value = movie;
+        datalist.appendChild(option);
+      });
+    }
+
+    function updateMovieOptions() {
+      const datalist = document.getElementById('movie-options');
+      datalist.innerHTML = '';
+      
+      // Add back only unselected movies
+      const allMovies = Array.from(new Set(data.map(r => r.title))).sort();
+      const selectedTitles = selectedMovies.map(m => m.title);
+      
+      allMovies.forEach(movie => {
+        if (!selectedTitles.includes(movie)) {
+          const option = document.createElement('option');
+          option.value = movie;
+          datalist.appendChild(option);
+        }
+      });
+    }
+
+    function addSelectedMovie() {
+      const input = document.getElementById('movie-selector');
+      const selectedTitle = input.value.trim();
+      
+      if (!selectedTitle) return;
+      
+      // Find the movie data
+      const movieData = data.find(r => r.title === selectedTitle);
+      if (!movieData) return;
+      
+      // Check if already selected
+      if (selectedMovies.some(m => m.title === selectedTitle)) return;
+      
+      // Add to selected movies
+      selectedMovies.push({
+        title: selectedTitle,
+        imgUrl: movieData.img_url,
+        job: movieData.job
+      });
+      
+      // Update the display
+      displaySelectedMovies();
+      
+      // Update the options
+      updateMovieOptions();
+      
+      // Reset input
+      input.value = '';
+    }
+
+    function removeSelectedMovie(title) {
+      selectedMovies = selectedMovies.filter(m => m.title !== title);
+      displaySelectedMovies();
+      updateMovieOptions();
+    }
+
+    function displaySelectedMovies() {
+      const container = document.getElementById('selected-movies');
+      container.innerHTML = '';
+      
+      selectedMovies.forEach(movie => {
+        const movieDiv = document.createElement('div');
+        movieDiv.className = 'selected-movie';
+        movieDiv.innerHTML = `
+          <button class="remove-btn" onclick="removeSelectedMovie('${movie.title}')">×</button>
+          <img src="${movie.imgUrl}" alt="${movie.title}" onerror="this.style.display='none'">
+          <h4>${movie.title}</h4>
+        `;
+        container.appendChild(movieDiv);
+      });
+    }
+
+    document.getElementById('add-btn').addEventListener('click', addSelectedMovie);
+    
+    document.getElementById('movie-selector').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addSelectedMovie();
+      }
+    });
+
+    document.getElementById('find-btn').addEventListener('click', () => {
+      const chosen = selectedMovies.map(m => m.title);
+
+      const byPerson = {};
+      data.forEach(r => {
+        if (!byPerson[r.person]) byPerson[r.person] = { person: r.person, job: r.job, movies: [] };
+        byPerson[r.person].movies.push(r.title);
+      });
+
+      const results = Object.values(byPerson)
+        .map(p => {
+          const overlap = p.movies.filter(m => chosen.includes(m));
+          return { ...p, count: overlap.length, overlap };
+        })
+        .filter(r => r.count > 0)
+        .sort((a, b) => b.count - a.count);
+
+      const resDiv = document.getElementById('results');
+      resDiv.innerHTML = '';
+      results.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'result';
+        div.innerHTML = `<h3>${r.person} (${r.job}) — ${r.count}</h3><p>${r.overlap.join(', ')}</p>`;
+        resDiv.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>
