@@ -225,17 +225,38 @@
       
       <!-- Share Image Preview -->
       <div id="share-preview" style="background: var(--card); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid var(--border);">
-        <div id="share-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 2rem; border-radius: 12px; color: white; text-align: center; width: 400px; height: 600px; display: flex; flex-direction: column; justify-content: space-between;">
-          <h2 style="margin-bottom: 1rem; font-size: 1.5rem;">My Top 10 21st Century Films</h2>
-          <div id="share-movies" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem; flex: 1;">
-            <!-- Movies will be populated here -->
+        <div id="share-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem; border-radius: 12px; color: white; text-align: center; width: 420px; height: 600px; display: flex; flex-direction: row; align-items: center; gap: 1rem; position: relative; overflow: hidden;">
+          <!-- Background pattern -->
+          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);"></div>
+          
+          <!-- Left movies column -->
+          <div id="share-left-movies" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 1;">
+            <!-- Left 5x2 grid will be populated here -->
           </div>
-          <div id="share-overlaps" style="margin-bottom: 1.5rem;">
-            <!-- Overlaps will be populated here -->
+          
+          <!-- Center content -->
+          <div id="share-center-content" style="flex: 1.4; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 1;">
+            <!-- Header -->
+            <div style="margin-bottom: 1rem;">
+              <h2 style="margin-bottom: 0.3rem; font-size: 1.6rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">My Film Taste</h2>
+              <p style="font-size: 0.9rem; opacity: 0.9;">Top Matches</p>
+            </div>
+            
+            <!-- Main content -->
+            <div id="share-main-content" style="margin-bottom: 1rem;">
+              <!-- Top matches will be populated here -->
+            </div>
+            
+            <!-- Footer -->
+            <div style="background: rgba(255,255,255,0.15); padding: 0.75rem; border-radius: 8px;">
+              <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.3rem;">Find your matches at</p>
+              <p style="font-size: 0.65rem; font-family: monospace; font-weight: 600;">ja-godfrey.github.io/top100_movies</p>
+            </div>
           </div>
-          <div style="text-align: center; margin-top: auto;">
-            <p style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Find your matches at:</p>
-            <p style="font-size: 0.8rem; opacity: 0.8; font-family: monospace; background: rgba(255,255,255,0.1); padding: 0.5rem; border-radius: 4px; display: inline-block;">ja-godfrey.github.io/top100_movies</p>
+          
+          <!-- Right movies column -->
+          <div id="share-right-movies" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 1;">
+            <!-- Right 5x2 grid will be populated here -->
           </div>
         </div>
       </div>
@@ -290,12 +311,32 @@
     let data;
     let selectedMovies = [];
     
+    // Load saved movies from localStorage on page load
+    function loadSavedMovies() {
+      const saved = localStorage.getItem('top100_movies_selections');
+      if (saved) {
+        try {
+          selectedMovies = JSON.parse(saved);
+          displaySelectedMovies();
+        } catch (e) {
+          console.error('Error loading saved movies:', e);
+          selectedMovies = [];
+        }
+      }
+    }
+    
+    // Save movies to localStorage
+    function saveMovies() {
+      localStorage.setItem('top100_movies_selections', JSON.stringify(selectedMovies));
+    }
+    
     Papa.parse('src/assets/data/top100.csv', {
       download: true,
       header: true,
       complete(results) {
         data = results.data;
         populateMovieOptions();
+        loadSavedMovies(); // Load saved selections after data is available
       }
     });
 
@@ -353,6 +394,9 @@
       // Update the options
       updateMovieOptions();
       
+      // Save to localStorage
+      saveMovies();
+      
       // Reset input
       input.value = '';
     }
@@ -361,6 +405,7 @@
       selectedMovies = selectedMovies.filter(m => m.title !== title);
       displaySelectedMovies();
       updateMovieOptions();
+      saveMovies(); // Save to localStorage
     }
 
     function displaySelectedMovies() {
@@ -386,6 +431,8 @@
         addSelectedMovie();
       }
     });
+
+
 
     document.getElementById('movie-selector').addEventListener('input', (e) => {
       const input = e.target;
@@ -503,35 +550,96 @@
       // Store results globally for sharing functions
       window.currentResults = results;
 
-      // Populate movies grid with posters
-      const moviesContainer = document.getElementById('share-movies');
-      moviesContainer.innerHTML = '';
-      chosenMovies.slice(0, 10).forEach(movie => {
+      // Create main content with top matches and movie grid
+      const mainContentContainer = document.getElementById('share-main-content');
+      mainContentContainer.innerHTML = '';
+      
+      const top3 = results.slice(0, 3);
+      
+              // Create top matches section
+        if (top3.length > 0) {
+          const matchesSection = document.createElement('div');
+          matchesSection.style.cssText = 'margin-bottom: 1.5rem;';
+          
+          // #1 match with special styling
+          if (top3[0]) {
+            const topMatch = document.createElement('div');
+            topMatch.style.cssText = 'background: rgba(255,255,255,0.2); padding: 1.2rem; border-radius: 16px; margin-bottom: 0.8rem; text-align: center; backdrop-filter: blur(10px);';
+            topMatch.innerHTML = `
+              <div style="font-size: 0.7rem; opacity: 0.8; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 1px;">Your #1 Match</div>
+              <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">${top3[0].person}</div>
+              <div style="background: rgba(255,255,255,0.3); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block;">
+                ${top3[0].count} films in common
+              </div>
+            `;
+            matchesSection.appendChild(topMatch);
+          }
+          
+          // #2 and #3 matches
+          if (top3[1] || top3[2]) {
+            const otherMatches = document.createElement('div');
+            otherMatches.style.cssText = 'display: flex; gap: 0.8rem; justify-content: center;';
+            
+            [top3[1], top3[2]].forEach((match, index) => {
+              if (match) {
+                const matchDiv = document.createElement('div');
+                matchDiv.style.cssText = 'background: rgba(255,255,255,0.15); padding: 0.8rem; border-radius: 12px; text-align: center; flex: 1; backdrop-filter: blur(10px);';
+                matchDiv.innerHTML = `
+                  <div style="font-size: 0.6rem; opacity: 0.8; margin-bottom: 0.2rem;">#${index + 2}</div>
+                  <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem;">${match.person}</div>
+                  <div style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.6rem; font-weight: 600;">
+                    ${match.count} films
+                  </div>
+                `;
+                otherMatches.appendChild(matchDiv);
+              }
+            });
+            
+            matchesSection.appendChild(otherMatches);
+          }
+          
+          mainContentContainer.appendChild(matchesSection);
+        }
+      
+      // Split movies into left and right columns (5 movies each)
+      const leftMovies = chosenMovies.slice(0, 5);
+      const rightMovies = chosenMovies.slice(5, 10);
+
+      // Create left movies grid (5x1)
+      const leftMoviesContainer = document.getElementById('share-left-movies');
+      leftMoviesContainer.innerHTML = '';
+      const leftGrid = document.createElement('div');
+      leftGrid.style.cssText = 'display: flex; flex-direction: column; gap: 0.2rem; justify-content: center; height: 100%;';
+      
+      leftMovies.forEach(movie => {
         const movieData = data.find(r => r.title === movie);
         const movieDiv = document.createElement('div');
-        movieDiv.style.cssText = 'text-align: center; font-size: 0.6rem; line-height: 1.2;';
+        movieDiv.style.cssText = 'width: 50px; height: 75px; border-radius: 6px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.3); flex-shrink: 0;';
+        
         movieDiv.innerHTML = `
-          <img src="${movieData.img_url}" alt="${movie}" style="width: 60px; height: 90px; object-fit: cover; border-radius: 4px; margin-bottom: 0.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3);" onerror="this.style.display='none'">
-          <div style="background: rgba(255,255,255,0.1); padding: 0.25rem; border-radius: 4px; font-size: 0.5rem;">
-            <strong>${movie}</strong>
-          </div>
+          <img src="${movieData.img_url}" alt="${movie}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
         `;
-        moviesContainer.appendChild(movieDiv);
+        leftGrid.appendChild(movieDiv);
       });
+      leftMoviesContainer.appendChild(leftGrid);
 
-      // Populate top overlaps
-      const overlapsContainer = document.getElementById('share-overlaps');
-      overlapsContainer.innerHTML = '';
-      const topResults = results.slice(0, 3); // Reduced to 3 for mobile-friendly layout
-      if (topResults.length > 0) {
-        const overlapsDiv = document.createElement('div');
-        overlapsDiv.style.cssText = 'background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem;';
-        overlapsDiv.innerHTML = `
-          <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem;">Top Matches:</h4>
-          ${topResults.map(r => `<div style="font-size: 0.7rem; margin-bottom: 0.2rem;">${r.person} (${r.job}) - ${r.count} films</div>`).join('')}
+      // Create right movies grid (5x1)
+      const rightMoviesContainer = document.getElementById('share-right-movies');
+      rightMoviesContainer.innerHTML = '';
+      const rightGrid = document.createElement('div');
+      rightGrid.style.cssText = 'display: flex; flex-direction: column; gap: 0.2rem; justify-content: center; height: 100%;';
+      
+      rightMovies.forEach(movie => {
+        const movieData = data.find(r => r.title === movie);
+        const movieDiv = document.createElement('div');
+        movieDiv.style.cssText = 'width: 50px; height: 75px; border-radius: 6px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.3); flex-shrink: 0;';
+        
+        movieDiv.innerHTML = `
+          <img src="${movieData.img_url}" alt="${movie}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
         `;
-        overlapsContainer.appendChild(overlapsDiv);
-      }
+        rightGrid.appendChild(movieDiv);
+      });
+      rightMoviesContainer.appendChild(rightGrid);
     }
 
     // Share functionality
