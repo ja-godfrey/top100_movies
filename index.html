@@ -225,37 +225,39 @@
       
       <!-- Share Image Preview -->
       <div id="share-preview" style="background: var(--card); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; border: 1px solid var(--border);">
-        <div id="share-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem; border-radius: 12px; color: white; text-align: center; width: 420px; height: 600px; display: flex; flex-direction: row; align-items: center; gap: 1rem; position: relative; overflow: hidden;">
+        <div id="share-content" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 0.6rem 0.5rem; border-radius: 12px; color: white; text-align: center; width: 340px; height: 480px; display: flex; flex-direction: row; align-items: center; gap: 0.5rem; position: relative; overflow: hidden;">
           <!-- Background pattern -->
           <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);"></div>
+          <!-- Credit -->
+          <div style="position: absolute; bottom: 4px; right: 6px; font-size: 0.4rem; opacity: 0.35; z-index: 2; letter-spacing: 0.3px;">made by Jason Godfrey</div>
           
           <!-- Left movies column -->
-          <div id="share-left-movies" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 1;">
+          <div id="share-left-movies" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; position: relative; z-index: 1;">
             <!-- Left 5x2 grid will be populated here -->
           </div>
           
           <!-- Center content -->
           <div id="share-center-content" style="flex: 1.4; display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 1;">
             <!-- Header -->
-            <div style="margin-bottom: 1rem;">
-              <h2 style="margin-bottom: 0.3rem; font-size: 1.6rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">My Film Taste</h2>
-              <p style="font-size: 0.9rem; opacity: 0.9;">Top Matches</p>
+            <div style="margin-bottom: 0.6rem;">
+              <h2 style="margin-bottom: 0.2rem; font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">My Film Taste</h2>
+              <p style="font-size: 0.85rem; opacity: 0.9;">Top Matches</p>
             </div>
             
             <!-- Main content -->
-            <div id="share-main-content" style="margin-bottom: 1rem;">
+            <div id="share-main-content">
               <!-- Top matches will be populated here -->
             </div>
             
             <!-- Footer -->
-            <div style="background: rgba(255,255,255,0.15); padding: 0.75rem; border-radius: 8px;">
-              <p style="font-size: 0.8rem; opacity: 0.9; margin-bottom: 0.3rem;">Find your matches at</p>
-              <p style="font-size: 0.65rem; font-family: monospace; font-weight: 600;">ja-godfrey.github.io/top100_movies</p>
+            <div style="background: rgba(255,255,255,0.15); padding: 0.5rem; border-radius: 8px; text-align: center; margin-top: 0.6rem;">
+              <p style="font-size: 0.55rem; opacity: 0.85; margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.5px;">Find your matches</p>
+              <img src="qr.png" alt="QR Code" style="width: 52px; height: 52px; border-radius: 4px; background: white; padding: 3px; display: block; margin: 0 auto;">
             </div>
           </div>
           
           <!-- Right movies column -->
-          <div id="share-right-movies" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; z-index: 1;">
+          <div id="share-right-movies" style="flex: 0.8; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; position: relative; z-index: 1;">
             <!-- Right 5x2 grid will be populated here -->
           </div>
         </div>
@@ -556,19 +558,19 @@
       
       const top3 = results.slice(0, 3);
       
-              // Create top matches section
+        // Create top matches section
         if (top3.length > 0) {
           const matchesSection = document.createElement('div');
-          matchesSection.style.cssText = 'margin-bottom: 1.5rem;';
+          matchesSection.style.cssText = '';
           
           // #1 match with special styling
           if (top3[0]) {
             const topMatch = document.createElement('div');
-            topMatch.style.cssText = 'background: rgba(255,255,255,0.2); padding: 1.2rem; border-radius: 16px; margin-bottom: 0.8rem; text-align: center; backdrop-filter: blur(10px);';
+            topMatch.style.cssText = 'background: rgba(255,255,255,0.2); padding: 0.8rem; border-radius: 12px; margin-bottom: 0.5rem; text-align: center; backdrop-filter: blur(10px);';
             topMatch.innerHTML = `
-              <div style="font-size: 0.7rem; opacity: 0.8; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 1px;">Your #1 Match</div>
-              <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">${top3[0].person}</div>
-              <div style="background: rgba(255,255,255,0.3); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block;">
+              <div style="font-size: 0.6rem; opacity: 0.8; margin-bottom: 0.25rem; text-transform: uppercase; letter-spacing: 1px;">Your #1 Match</div>
+              <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.25rem; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">${top3[0].person}</div>
+              <div style="background: rgba(255,255,255,0.3); padding: 0.25rem 0.6rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; display: inline-block;">
                 ${top3[0].count} films in common
               </div>
             `;
@@ -578,16 +580,16 @@
           // #2 and #3 matches
           if (top3[1] || top3[2]) {
             const otherMatches = document.createElement('div');
-            otherMatches.style.cssText = 'display: flex; gap: 0.8rem; justify-content: center;';
+            otherMatches.style.cssText = 'display: flex; gap: 0.5rem; justify-content: center;';
             
             [top3[1], top3[2]].forEach((match, index) => {
               if (match) {
                 const matchDiv = document.createElement('div');
-                matchDiv.style.cssText = 'background: rgba(255,255,255,0.15); padding: 0.8rem; border-radius: 12px; text-align: center; flex: 1; backdrop-filter: blur(10px);';
+                matchDiv.style.cssText = 'background: rgba(255,255,255,0.15); padding: 0.5rem; border-radius: 10px; text-align: center; flex: 1; backdrop-filter: blur(10px);';
                 matchDiv.innerHTML = `
-                  <div style="font-size: 0.6rem; opacity: 0.8; margin-bottom: 0.2rem;">#${index + 2}</div>
-                  <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.2rem;">${match.person}</div>
-                  <div style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.6rem; font-weight: 600;">
+                  <div style="font-size: 0.55rem; opacity: 0.8; margin-bottom: 0.15rem;">#${index + 2}</div>
+                  <div style="font-size: 0.8rem; font-weight: 600; margin-bottom: 0.15rem;">${match.person}</div>
+                  <div style="background: rgba(255,255,255,0.2); padding: 0.15rem 0.4rem; border-radius: 10px; font-size: 0.55rem; font-weight: 600;">
                     ${match.count} films
                   </div>
                 `;
@@ -608,38 +610,32 @@
       // Create left movies grid (5x1)
       const leftMoviesContainer = document.getElementById('share-left-movies');
       leftMoviesContainer.innerHTML = '';
-      const leftGrid = document.createElement('div');
-      leftGrid.style.cssText = 'display: flex; flex-direction: column; gap: 0.2rem; justify-content: center; height: 100%;';
       
       leftMovies.forEach(movie => {
         const movieData = data.find(r => r.title === movie);
         const movieDiv = document.createElement('div');
-        movieDiv.style.cssText = 'width: 50px; height: 75px; border-radius: 6px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.3); flex-shrink: 0;';
+        movieDiv.style.cssText = 'width: 52px; height: 78px; border-radius: 5px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.3); flex-shrink: 0;';
         
         movieDiv.innerHTML = `
           <img src="${movieData.img_url}" alt="${movie}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
         `;
-        leftGrid.appendChild(movieDiv);
+        leftMoviesContainer.appendChild(movieDiv);
       });
-      leftMoviesContainer.appendChild(leftGrid);
 
       // Create right movies grid (5x1)
       const rightMoviesContainer = document.getElementById('share-right-movies');
       rightMoviesContainer.innerHTML = '';
-      const rightGrid = document.createElement('div');
-      rightGrid.style.cssText = 'display: flex; flex-direction: column; gap: 0.2rem; justify-content: center; height: 100%;';
       
       rightMovies.forEach(movie => {
         const movieData = data.find(r => r.title === movie);
         const movieDiv = document.createElement('div');
-        movieDiv.style.cssText = 'width: 50px; height: 75px; border-radius: 6px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.3); flex-shrink: 0;';
+        movieDiv.style.cssText = 'width: 52px; height: 78px; border-radius: 5px; overflow: hidden; box-shadow: 0 3px 8px rgba(0,0,0,0.3); flex-shrink: 0;';
         
         movieDiv.innerHTML = `
           <img src="${movieData.img_url}" alt="${movie}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'">
         `;
-        rightGrid.appendChild(movieDiv);
+        rightMoviesContainer.appendChild(movieDiv);
       });
-      rightMoviesContainer.appendChild(rightGrid);
     }
 
     // Share functionality
